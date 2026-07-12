@@ -1,4 +1,5 @@
 [build]
+  command = "node inject-keys.js"
   publish = "."
 
 [[headers]]

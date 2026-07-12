@@ -4,11 +4,7 @@
 // =====================================================
 
 const GEMINI_CONFIG = {
-  apiKeys: [
-    atob("QVEuQWI4Uk42S0haWkJmNWdqRjlIWExBLURJb3VKZm1GQ1hyZUxxTC1WZkZSR0FrRjY1a3c="), // Key 3 (Active)
-    atob("QVEuQWI4Uk42STYyeHBSRTA4bTBnbUxvSm1VUnQxR0E0dDBSUnRVNzBZcERCQWpRUDZuWnc="), // Key 1 (Backup)
-    atob("QVEuQWI4Uk42Snl2RUZ1bnJOV2Y5N0ZsZVg2RFA0NldlVGdfb3EtUldPTlZxeXQ2QWJyNVE=")  // Key 2 (Backup)
-  ],
+  apiKeys: window.GEMINI_KEYS || [],
   currentKeyIndex: 0,
   model: "gemini-2.5-flash",
   apiUrl: "https://generativelanguage.googleapis.com/v1beta/models"
