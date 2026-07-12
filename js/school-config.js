@@ -8,20 +8,20 @@
 window.SCHOOL_CONFIG = {
 
   // ─── स्कूल का नाम और पहचान ───
-  schoolName: "सांदीपनि विद्यालय बालाघाट",           // आपके स्कूल का नाम
-  schoolNameEnglish: "Sandipani Vidyalaya Balaghat",  // English name
+  schoolName: "सीएम राइज टिहलीबाई उत्कृष्ट विद्यालय वारासिवनी",           // आपके स्कूल का नाम
+  schoolNameEnglish: "CM Rise Tihlibai Excellence School Waraseoni",  // English name
   district: "बालाघाट",                                 // जिला
-  block: "बालाघाट",                                    // विकासखंड/Block
+  block: "वारासिवनी",                                    // विकासखंड/Block
   state: "मध्य प्रदेश",
-  udiseCode: "23450122047",                            // UDISE Code
-  schoolType: "उत्कृष्ट उच्चतर माध्यमिक विद्यालय",
+  udiseCode: "23450706733",                            // UDISE Code
+  schoolType: "शासकीय उत्कृष्ट उच्चतर माध्यमिक विद्यालय",
 
   // ─── संपर्क जानकारी ───
-  principal: "श्री आर.के. लटारे",                     // प्राचार्य का नाम
-  principalContact: "9926361755",                      // प्राचार्य का मोबाइल
+  principal: "श्री टी.के. गौतम",                     // प्राचार्य का नाम
+  principalContact: "9407376483",                      // प्राचार्य का मोबाइल
   phone: "07632-XXXXXX",                               // स्कूल का फोन
-  email: "cmrisebalaghat@mp.gov.in",                   // स्कूल का email
-  address: "चित्रगुप्त नगर, बालाघाट – 481001",         // पूरा पता
+  email: "cmrisewaraseoni@mp.gov.in",                   // स्कूल का email
+  address: "तुमड़ी, बालाघाट रोड, वारासिवनी - 481331 (हीरो शोरूम के सामने)",         // पूरा पता
 
   // ─── बॉट/असिस्टेंट का नाम ───
   botName: "सारथी",                                    // AI असिस्टेंट का नाम
@@ -59,7 +59,7 @@ window.SCHOOL_CONFIG = {
       emoji: "🎨",
       title: "एआई इमेज जनरेशन",
       desc: "स्कूल लैब या रचनात्मक प्रोजेक्ट्स का एआई चित्र बनवाएं",
-      query: "सांदीपनि विद्यालय की स्मार्ट क्लास का चित्र बनाओ"
+      query: "सीएम राइज विद्यालय वारासिवनी की स्मार्ट क्लास का चित्र बनाओ"
     },
     {
       emoji: "🏗️",
