@@ -1,6 +1,6 @@
-# 🏫 सांदीपनि / CM Rise School — Universal AI Help Desk Chatbot
+# 🏫 सीएम राइज टिहलीबाई उत्कृष्ट विद्यालय वारासिवनी — AI Help Desk Chatbot
 
-> **सारथी** — मध्य प्रदेश के किसी भी CM Rise / सांदीपनि विद्यालय के लिए तैयार AI Help Desk
+> **सारथी** — सीएम राइज टिहलीबाई उत्कृष्ट विद्यालय वारासिवनी (बालाघाट) के लिए तैयार AI Help Desk
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-cm--rise--balaghat--chatbot.netlify.app-blue)](https://cm-rise-balaghat-chatbot.netlify.app)
 
