@@ -1,100 +1,136 @@
-# 🤖 सारथी — CM Rise School Balaghat AI Chatbot
+# 🏫 सांदीपनि / CM Rise School — Universal AI Help Desk Chatbot
 
-> CM Rise Government Veerangana Rani Durgawati Higher Secondary School, Balaghat  
-> AI Help Desk Assistant for Students & Parents
+> **सारथी** — मध्य प्रदेश के किसी भी CM Rise / सांदीपनि विद्यालय के लिए तैयार AI Help Desk
 
-## 🚀 कैसे चलाएं (How to Run)
-
-### Option 1: सीधे ब्राउज़र में खोलें
-1. `index.html` फाइल पर **डबल क्लिक** करें
-2. ब्राउज़र में चैटबॉट खुल जाएगा
-3. कोई सवाल पूछें!
-
-### Option 2: Live Server (VS Code)
-1. VS Code में यह फोल्डर खोलें
-2. **Live Server** एक्सटेंशन इंस्टॉल करें
-3. `index.html` पर Right Click → "Open with Live Server"
-
-### Option 3: Python HTTP Server
-```bash
-cd chatBot
-python -m http.server 8000
-```
-फिर ब्राउज़र में `http://localhost:8000` खोलें
-
----
-
-## 📁 प्रोजेक्ट स्ट्रक्चर (Project Structure)
-
-```
-chatBot/
-├── index.html            ← मुख्य HTML फाइल
-├── css/
-│   └── style.css         ← Premium Dark Theme
-├── js/
-│   ├── app.js            ← Main application logic
-│   ├── gemini.js         ← Google Gemini API integration
-│   ├── chat-history.js   ← localStorage chat history
-│   └── school-data.js    ← स्कूल की पूरी जानकारी (Knowledge Base)
-└── README.md             ← यह फाइल
-```
-
----
-
-## ✏️ स्कूल डेटा कैसे बदलें (How to Update School Data)
-
-1. `js/school-data.js` फाइल खोलें
-2. `SCHOOL_DATA` object में अपनी जानकारी भरें:
-   - प्रिंसिपल का नाम
-   - फ़ोन नंबर
-   - ईमेल
-   - स्कूल का समय
-   - छुट्टियों की लिस्ट
-   - आदि...
-3. Save करें और ब्राउज़र refresh करें
-
----
-
-## 🔑 API Key बदलना (How to Change API Key)
-
-1. [Google AI Studio](https://aistudio.google.com/app/apikey) पर जाएं
-2. "Create API Key" पर क्लिक करें
-3. `js/gemini.js` फाइल खोलें
-4. `apiKey` फील्ड में नई key पेस्ट करें
-
----
-
-## 🌐 Netlify पर Deploy करना
-
-1. [Netlify](https://app.netlify.com) पर लॉगिन करें
-2. "Add new site" → "Deploy manually"
-3. पूरा `chatBot` फोल्डर drag & drop करें
-4. Done! 🎉
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-cm--rise--balaghat--chatbot.netlify.app-blue)](https://cm-rise-balaghat-chatbot.netlify.app)
 
 ---
 
 ## ✨ Features
 
-| Feature | Description |
-|---|---|
-| 🤖 AI Chat | Google Gemini 2.0 Flash |
-| 💾 Chat History | localStorage — page reload पर भी चैट सेव |
-| 🎨 Premium UI | Dark glassmorphism + saffron accents |
-| 📱 Responsive | Mobile, Tablet, Desktop |
-| 🇮🇳 Bilingual | Hindi + English support |
-| ⚡ Quick Replies | Sidebar + Welcome screen chips |
-| 🧹 Clear Chat | One-click history delete |
+- 🤖 **Google Gemini AI** powered intelligent chatbot
+- 🏫 **Universal** — किसी भी CM Rise/Sandipani School के लिए काम करे
+- 🌐 **Bilingual** — हिंदी + English दोनों में
+- 🎨 **AI Image Generation** — Pollinations.ai से तत्काल चित्र
+- 🔊 **Voice Input + Output** — बोलकर पूछें, सुनकर जवाब पाएं
+- 💬 **Chat History** — ChatGPT/Gemini जैसा Multi-session
+- 📱 **Responsive** — Mobile, Tablet, Desktop सभी में
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Setup Guide — अपने स्कूल के लिए Setup करें
 
-- **Frontend:** HTML5, CSS3, JavaScript (Vanilla)
-- **AI:** Google Gemini 2.0 Flash API
-- **Storage:** localStorage (Browser)
-- **Fonts:** Inter + Noto Sans Devanagari (Google Fonts)
-- **Hosting:** Netlify (Static site)
+### Step 1: Gemini API Key लें (Free)
+1. [aistudio.google.com](https://aistudio.google.com) पर जाएं
+2. **"Create API Key"** पर क्लिक करें
+3. API Key copy करें
+
+### Step 2: `js/keys.js` बनाएं
+`js/keys.example.js` को copy करें → `js/keys.js` नाम दें:
+```js
+// js/keys.js
+window.GEMINI_API_KEY = "AIzaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+```
+> ⚠️ **keys.js GitHub पर नहीं जाएगी** (`.gitignore` में है) — सुरक्षित!
+
+### Step 3: अपने स्कूल की जानकारी भरें
+`js/school-config.js` खोलें और अपना डेटा डालें:
+
+```js
+// js/school-config.js
+window.SCHOOL_CONFIG = {
+  schoolName: "सांदीपनि विद्यालय [आपका जिला]",
+  schoolNameEnglish: "Sandipani Vidyalaya [District]",
+  district: "[जिले का नाम]",
+  block: "[विकासखंड]",
+  udiseCode: "[UDISE Code]",
+  principal: "[प्राचार्य का नाम]",
+  principalContact: "[मोबाइल नंबर]",
+  address: "[पूरा पता]",
+  botName: "सारथी",
+  // ...
+};
+```
+
+### Step 4: Deploy करें (Netlify — Free)
+1. [netlify.com](https://netlify.com) पर account बनाएं
+2. **"Deploy from GitHub"** चुनें
+3. **Environment Variables** में `GEMINI_API_KEY` डालें (Netlify Dashboard → Site Settings → Environment Variables)
+4. Done! ✅
 
 ---
 
-**Made with ❤️ for CM Rise School Balaghat — AI Workshop Demo**
+## 📁 Project Structure
+
+```
+chatBot/
+├── index.html              ← Main HTML (Dynamic — config से load)
+├── css/
+│   └── style.css           ← Styling
+├── js/
+│   ├── school-config.js    ← ⭐ अपने स्कूल का DATA यहाँ भरें
+│   ├── school-config.example.js  ← Template (copy करें)
+│   ├── school-data.js      ← MP-wide CM Rise Knowledge Base
+│   ├── keys.js             ← API Key (gitignore में — GitHub पर नहीं जाएगी)
+│   ├── keys.example.js     ← Template
+│   ├── gemini.js           ← Gemini API integration
+│   ├── chat-history.js     ← Multi-session storage
+│   └── app.js              ← Main logic (Universal)
+├── .env                    ← Netlify injection (local)
+├── inject-keys.js          ← Netlify build script
+├── netlify.toml            ← Netlify config
+└── .gitignore              ← keys.js और .env को ignore करता है
+```
+
+---
+
+## 🗂️ Knowledge Base में क्या है?
+
+`js/school-data.js` में पूरे मध्य प्रदेश का CM Rise/Sandipani School डेटाबेस है:
+
+| Section | Details |
+|---------|---------|
+| **बालाघाट जिला** | 14 schools — UDISE, Principal, Contact |
+| **State-wide DB** | मालवा-निमाड़, ग्वालियर-चंबल, महाकौशल के 50+ schools |
+| **एकलव्य स्कूल** | EMRS बैहर, उकवा |
+| **प्रवेश नियम** | RTE, Lottery, Education Portal 3.0 |
+| **सांदीपनि इतिहास** | नामकरण, PM SHRI, NEP 2020 |
+| **AI Training** | Agnirva, ISRO, Peepul India |
+| **AI Exhibition** | Prompt Engineering, Cyber Security, Avatar Stall |
+
+---
+
+## 🔒 Security — API Key Safe कैसे रखें?
+
+| File | GitHub पर? | क्यों? |
+|------|-----------|--------|
+| `js/keys.js` | ❌ नहीं | `.gitignore` में है |
+| `.env` | ❌ नहीं | `.gitignore` में है |
+| `js/school-config.js` | ✅ हाँ | कोई secret नहीं |
+| `js/school-data.js` | ✅ हाँ | Public knowledge |
+
+**Netlify पर deploy करते समय:**
+- `Site Settings → Environment Variables → GEMINI_API_KEY`
+
+---
+
+## 🌟 Demo
+
+**Live site:** [cm-rise-balaghat-chatbot.netlify.app](https://cm-rise-balaghat-chatbot.netlify.app)
+
+---
+
+## 🤝 Contributing
+
+- नए school का data add करना हो तो `js/school-data.js` में PR भेजें
+- Bug मिला हो तो Issues में report करें
+
+---
+
+## 📜 License
+
+Open Source — All CM Rise / Sandipani Schools are welcome to use and customize!
+
+---
+
+*Made with ❤️ for MP Government Schools | Powered by Google Gemini AI*

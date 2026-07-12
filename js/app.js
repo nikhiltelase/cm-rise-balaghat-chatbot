@@ -1,6 +1,6 @@
 // =====================================================
-// CM Rise School Balaghat — Saarthi Chatbot
-// Main Application Logic
+// CM Rise / Sandipani Vidyalaya — Universal Saarthi Chatbot
+// Main Application Logic — Reads from SCHOOL_CONFIG
 // =====================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -20,6 +20,90 @@ document.addEventListener("DOMContentLoaded", () => {
   const newChatBtn = document.getElementById("newChatBtn");
   const recentChatsList = document.getElementById("recentChatsList");
   const noHistoryText = document.getElementById("noHistoryText");
+
+  // ─── Load SCHOOL_CONFIG into UI (Universal School Branding) ───
+  const cfg = (typeof window.SCHOOL_CONFIG !== 'undefined') ? window.SCHOOL_CONFIG : {};
+  const botName = cfg.botName || 'सारथी';
+  const schoolName = cfg.schoolName || 'CM Rise Sandipani विद्यालय';
+  const schoolDistrict = cfg.district || '';
+  const botEmoji = cfg.botEmoji || '🤖';
+
+  // Update page title
+  document.title = `${botName} — ${schoolName} AI Assistant`;
+
+  // Update header
+  const headerTitle = document.getElementById('header-title');
+  if (headerTitle) headerTitle.textContent = `${botName} — AI Assistant`;
+
+  const headerBadge = document.getElementById('header-badge');
+  if (headerBadge) headerBadge.textContent = schoolDistrict ? `CM Rise • ${schoolDistrict}` : 'CM Rise';
+
+  const headerAvatar = document.getElementById('header-avatar-icon');
+  if (headerAvatar) headerAvatar.textContent = botEmoji;
+
+  // Update sidebar branding
+  const sidebarBotName = document.getElementById('sidebar-bot-name');
+  if (sidebarBotName) sidebarBotName.textContent = botName;
+
+  const sidebarSchoolName = document.getElementById('sidebar-school-name');
+  if (sidebarSchoolName) sidebarSchoolName.textContent = schoolName.length > 30 ? schoolName.substring(0, 28) + '...' : schoolName;
+
+  // Update welcome section
+  const welcomeBotName = document.getElementById('welcome-bot-name');
+  if (welcomeBotName) welcomeBotName.textContent = botName;
+
+  const welcomeAvatar = document.getElementById('welcome-avatar');
+  if (welcomeAvatar) welcomeAvatar.textContent = botEmoji;
+
+  const welcomeSubtitle = document.getElementById('welcome-subtitle');
+  if (welcomeSubtitle) welcomeSubtitle.textContent = `${schoolName} का AI Help Desk। मैं आज आपकी क्या सहायता कर सकता हूँ?`;
+
+  // Build welcome cards from SCHOOL_CONFIG
+  function buildWelcomeCardsHTML() {
+    const cards = cfg.welcomeCards || [
+      { emoji: '🕐', title: 'स्कूल का समय व कैलेंडर', desc: 'समय सारणी, छुट्टियां और परीक्षा तिथियां जानें', query: 'स्कूल का समय क्या है?' },
+      { emoji: '📝', title: 'प्रवेश प्रक्रिया व नियम', desc: 'दाखिला पात्रता, 1-3 किमी नियम और दस्तावेज देखें', query: 'एडमिशन की प्रक्रिया बताओ' },
+      { emoji: '🎨', title: 'एआई इमेज जनरेशन', desc: 'स्कूल या प्रोजेक्ट का AI चित्र बनवाएं', query: 'हमारी स्कूल की स्मार्ट क्लास का चित्र बनाओ' },
+      { emoji: '🏗️', title: 'स्मार्ट लैब व सुविधाएं', desc: 'अटल टिंकरिंग लैब, कंप्यूटर लैब की जानकारी', query: 'अटल टिंकरिंग लैब के बारे में बताओ' }
+    ];
+    return cards.map(c => `
+      <div class="welcome-card" data-query="${c.query}">
+        <div class="card-icon">${c.emoji}</div>
+        <div class="card-title">${c.title}</div>
+        <div class="card-desc">${c.desc}</div>
+      </div>
+    `).join('');
+  }
+
+  // Populate welcome grid
+  const welcomeGrid = document.getElementById('welcomeGrid');
+  if (welcomeGrid) welcomeGrid.innerHTML = buildWelcomeCardsHTML();
+
+  // Build quick links from SCHOOL_CONFIG
+  const quickLinksContainer = document.getElementById('quickLinksContainer');
+  if (quickLinksContainer) {
+    const links = cfg.quickLinks || [
+      { emoji: '🕐', label: 'स्कूल का समय', query: 'स्कूल का समय क्या है?' },
+      { emoji: '📝', label: 'एडमिशन जानकारी', query: 'एडमिशन की प्रक्रिया बताओ' },
+      { emoji: '📖', label: 'विषय / Streams', query: 'कक्षा 11 में कौन-कौन से विषय हैं?' },
+      { emoji: '🏗️', label: 'सुविधाएं', query: 'स्कूल में क्या-क्या सुविधाएं हैं?' },
+      { emoji: '📅', label: 'छुट्टियाँ / कैलेंडर', query: 'छुट्टियों की लिस्ट दिखाओ' },
+      { emoji: '📋', label: 'नियम', query: 'स्कूल के नियम क्या हैं?' },
+      { emoji: '📞', label: 'संपर्क करें', query: 'स्कूल से कैसे संपर्क करें?' },
+      { emoji: '🌟', label: 'CM Rise के बारे में', query: 'CM Rise / सांदीपनि योजना क्या है?' }
+    ];
+    quickLinksContainer.innerHTML = links.map(l => `
+      <button class="quick-link-btn" data-query="${l.query}">
+        <span class="ql-icon">${l.emoji}</span>
+        <span>${l.label}</span>
+      </button>
+    `).join('');
+
+    // Bind quick link events
+    quickLinksContainer.querySelectorAll('.quick-link-btn').forEach(btn => {
+      btn.addEventListener('click', () => sendMessage(btn.dataset.query));
+    });
+  }
 
   // ─── Initialize Modules ───
   const gemini = new GeminiChat();
@@ -197,43 +281,23 @@ document.addEventListener("DOMContentLoaded", () => {
     stopRecording();
 
     currentSessionId = "session_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
-    
-    // Clear chat display and insert a fresh copy of welcomeSection HTML
+
+    // Build welcome screen using SCHOOL_CONFIG
     chatMessages.innerHTML = `
       <div class="welcome-section" id="welcomeSection">
-        <div class="welcome-avatar">🤖</div>
+        <div class="welcome-avatar">${botEmoji}</div>
         <h2 class="welcome-title">
-          नमस्ते! मैं <span class="gradient-text">सारथी</span> हूँ
+          नमस्ते! मैं <span class="gradient-text">${botName}</span> हूँ
         </h2>
         <p class="welcome-subtitle">
-          CM Rise School Balaghat का AI Help Desk Assistant। मैं आज आपकी क्या सहायता कर सकता हूँ?
+          ${schoolName} का AI Help Desk। मैं आज आपकी क्या सहायता कर सकता हूँ?
         </p>
-        
         <div class="welcome-grid">
-          <div class="welcome-card" data-query="स्कूल का समय क्या है?">
-            <div class="card-icon">🕐</div>
-            <div class="card-title">स्कूल का समय व कैलेंडर</div>
-            <div class="card-desc">समय सारणी, छुट्टियां और परीक्षा तिथियां जानें</div>
-          </div>
-          <div class="welcome-card" data-query="एडमिशन की प्रक्रिया बताओ">
-            <div class="card-icon">📝</div>
-            <div class="card-title">प्रवेश प्रक्रिया व नियम</div>
-            <div class="card-desc">दाखिला पात्रता, 1-3 किमी नियम और दस्तावेज देखें</div>
-          </div>
-          <div class="welcome-card" data-query="अटल टिंकरिंग लैब का चित्र बनाओ">
-            <div class="card-icon">🎨</div>
-            <div class="card-title">एआई इमेज जनरेशन</div>
-            <div class="card-desc">स्कूल लैब या रचनात्मक प्रोजेक्ट्स का एआई चित्र बनवाएं</div>
-          </div>
-          <div class="welcome-card" data-query="अटल टिंकरिंग लैब के बारे में बताओ">
-            <div class="card-icon">🏗️</div>
-            <div class="card-title">स्मार्ट लैब व सुविधाएं</div>
-            <div class="card-desc">अटल टिंकरिंग लैब, कंप्यूटर लैब और कोडिंग की जानकारी</div>
-          </div>
+          ${buildWelcomeCardsHTML()}
         </div>
       </div>
     `;
-    
+
     // Reset Gemini context
     gemini.clearHistory();
 
