@@ -2,7 +2,7 @@
 
 > **सारथी** — सीएम राइज टिहलीबाई उत्कृष्ट विद्यालय वारासिवनी (बालाघाट) के लिए तैयार AI Help Desk
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-cm--rise--balaghat--chatbot.netlify.app-blue)](https://cm-rise-balaghat-chatbot.netlify.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-cm--rise--waraseoni--chatbot.netlify.app-blue)](https://cm-rise-waraseoni-chatbot.netlify.app)
 
 ---
 
@@ -116,7 +116,7 @@ chatBot/
 
 ## 🌟 Demo
 
-**Live site:** [cm-rise-balaghat-chatbot.netlify.app](https://cm-rise-balaghat-chatbot.netlify.app)
+**Live site:** [cm-rise-waraseoni-chatbot.netlify.app](https://cm-rise-waraseoni-chatbot.netlify.app)
 
 ---
 
