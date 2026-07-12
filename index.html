@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CM Rise School Balaghat — AI Help Desk Chatbot। छात्रों और अभिभावकों के लिए स्कूल की जानकारी।">
+  <meta name="theme-color" content="#0a0e27">
+  <title>सारथी — CM Rise School Balaghat AI Assistant</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- ─── Sidebar ─── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-icon">🏫</div>
+          <div class="brand-text">
+            <h2>सारथी</h2>
+            <span>CM Rise Balaghat</span>
+          </div>
+        </div>
+        <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">✕</button>
+      </div>
+      
+      <div class="sidebar-content">
+        <!-- New Chat Button -->
+        <button class="new-chat-btn" id="newChatBtn">
+          <span>➕</span>
+          <span>नया चैट (New Chat)</span>
+        </button>
+
+        <!-- Recent Chats Section -->
+        <h3 class="sidebar-label" style="margin-top: 20px;">💬 हालिया बातचीत</h3>
+        <div class="recent-chats" id="recentChatsList">
+          <!-- Dynamically populated sessions will go here -->
+          <div class="no-history-text" id="noHistoryText">कोई इतिहास नहीं है</div>
+        </div>
+
+        <!-- Quick Links Section -->
+        <h3 class="sidebar-label" style="margin-top: 24px;">🔖 जल्दी पूछें</h3>
+        <div class="quick-links">
+          <button class="quick-link-btn" data-query="स्कूल का समय क्या है?">
+            <span class="ql-icon">🕐</span>
+            <span>स्कूल का समय</span>
+          </button>
+          <button class="quick-link-btn" data-query="एडमिशन की प्रक्रिया बताओ">
+            <span class="ql-icon">📝</span>
+            <span>एडमिशन जानकारी</span>
+          </button>
+          <button class="quick-link-btn" data-query="कक्षा 11 में कौन-कौन से विषय हैं?">
+            <span class="ql-icon">📖</span>
+            <span>विषय / Streams</span>
+          </button>
+          <button class="quick-link-btn" data-query="स्कूल में क्या-क्या सुविधाएं हैं?">
+            <span class="ql-icon">🏗️</span>
+            <span>सुविधाएं</span>
+          </button>
+          <button class="quick-link-btn" data-query="छुट्टियों की लिस्ट दिखाओ">
+            <span class="ql-icon">📅</span>
+            <span>छुट्टियाँ / कैलेंडर</span>
+          </button>
+          <button class="quick-link-btn" data-query="स्कूल के नियम क्या हैं?">
+            <span class="ql-icon">📋</span>
+            <span>नियम</span>
+          </button>
+          <button class="quick-link-btn" data-query="स्कूल से कैसे संपर्क करें?">
+            <span class="ql-icon">📞</span>
+            <span>संपर्क करें</span>
+          </button>
+          <button class="quick-link-btn" data-query="CM Rise योजना क्या है?">
+            <span class="ql-icon">🌟</span>
+            <span>CM Rise के बारे में</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="sidebar-footer">
+        <button class="clear-chat-btn" id="clearChatBtn">
+          <span>🗑️</span>
+          <span>चैट मिटाएं</span>
+        </button>
+        <div class="footer-info">
+          <p>Powered by <strong>Google Gemini AI</strong></p>
+          <p class="version">v1.0 • AI Workshop Demo</p>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- ─── Sidebar Overlay (mobile) ─── -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- ─── Main Chat Area ─── -->
+    <main class="chat-main">
+      
+      <!-- Header -->
+      <header class="chat-header">
+        <div class="header-left">
+          <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div class="header-avatar">
+            <div class="avatar-icon">🤖</div>
+            <div class="online-dot"></div>
+          </div>
+          <div class="header-info">
+            <h1>सारथी — AI Assistant</h1>
+            <p class="status-text">
+              <span class="status-dot"></span>
+              <span id="statusText">ऑनलाइन • जवाब देने को तैयार</span>
+            </p>
+          </div>
+        </div>
+        <div class="header-right">
+          <button class="voice-toggle-btn" id="voiceToggleBtn" title="आवाज बंद/चालू करें">
+            <span class="vt-icon">🔈</span>
+          </button>
+          <div class="header-badge">CM Rise</div>
+        </div>
+      </header>
+      
+      <!-- Messages Area -->
+      <div class="chat-messages" id="chatMessages">
+        
+        <!-- Welcome Message (shown when no history) -->
+        <div class="welcome-section" id="welcomeSection">
+          <div class="welcome-avatar">🤖</div>
+          <h2 class="welcome-title">
+            नमस्ते! मैं <span class="gradient-text">सारथी</span> हूँ
+          </h2>
+          <p class="welcome-subtitle">
+            CM Rise School Balaghat का AI Help Desk Assistant। मैं आज आपकी क्या सहायता कर सकता हूँ?
+          </p>
+          
+          <div class="welcome-grid">
+            <div class="welcome-card" data-query="स्कूल का समय क्या है?">
+              <div class="card-icon">🕐</div>
+              <div class="card-title">स्कूल का समय व कैलेंडर</div>
+              <div class="card-desc">समय सारणी, छुट्टियां और परीक्षा तिथियां जानें</div>
+            </div>
+            <div class="welcome-card" data-query="एडमिशन की प्रक्रिया बताओ">
+              <div class="card-icon">📝</div>
+              <div class="card-title">प्रवेश प्रक्रिया व नियम</div>
+              <div class="card-desc">दाखिला पात्रता, 1-3 किमी नियम और दस्तावेज देखें</div>
+            </div>
+            <div class="welcome-card" data-query="अटल टिंकरिंग लैब का चित्र बनाओ">
+              <div class="card-icon">🎨</div>
+              <div class="card-title">एआई इमेज जनरेशन</div>
+              <div class="card-desc">स्कूल लैब या रचनात्मक प्रोजेक्ट्स का एआई चित्र बनवाएं</div>
+            </div>
+            <div class="welcome-card" data-query="अटल टिंकरिंग लैब के बारे में बताओ">
+              <div class="card-icon">🏗️</div>
+              <div class="card-title">स्मार्ट लैब व सुविधाएं</div>
+              <div class="card-desc">अटल टिंकरिंग लैब, कंप्यूटर लैब और कोडिंग की जानकारी</div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- Input Area -->
+      <div class="chat-input-area">
+        <div class="input-container">
+          <textarea 
+            id="messageInput" 
+            placeholder="अपना सवाल यहाँ लिखें... (हिंदी या English में)"
+            rows="1"
+            maxlength="500"
+          ></textarea>
+          <button class="mic-btn" id="micBtn" title="बोलकर टाइप करें" aria-label="Start voice typing">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+          </button>
+          <button class="send-btn" id="sendBtn" aria-label="Send message" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 2L11 13"></path>
+              <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+            </svg>
+          </button>
+        </div>
+        <p class="input-hint">
+          ⚡ AI से चलता है • केवल स्कूल जानकारी • Enter भेजें, Shift+Enter नई लाइन
+        </p>
+      </div>
+      
+    </main>
+  </div>
+  
+  <!-- Scripts (order matters!) -->
+  <script src="js/school-data.js"></script>
+  <script src="js/gemini.js"></script>
+  <script src="js/chat-history.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
