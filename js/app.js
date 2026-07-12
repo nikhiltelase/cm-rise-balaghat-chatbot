@@ -27,6 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarBotName = document.getElementById("sidebar-bot-name");
   const sidebarSchoolName = document.getElementById("sidebar-school-name");
 
+  let isWaitingForResponse = false;
+
   // ─── Load SCHOOL_CONFIG into UI (Universal School Branding) ───
   const cfg = (typeof window.SCHOOL_CONFIG !== 'undefined') ? window.SCHOOL_CONFIG : {};
   const botName = cfg.botName || 'सारथी';
@@ -284,7 +286,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const history = new ChatHistoryManager();
 
   let currentSessionId = "";
-  let isWaitingForResponse = false;
   let isVoiceOutputEnabled = localStorage.getItem("saarthi_voice_output") === "true";
   let recognition = null;
   let isRecording = false;
