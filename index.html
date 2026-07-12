@@ -93,6 +93,22 @@
           <button class="voice-toggle-btn" id="voiceToggleBtn" title="आवाज बंद/चालू करें">
             <span class="vt-icon">🔈</span>
           </button>
+          <!-- Language Selector -->
+          <div class="lang-selector" id="langSelector">
+            <button class="lang-btn" id="langBtn" title="भाषा बदलें / Change Language">
+              <span class="lang-flag" id="langFlag">🇮🇳</span>
+              <span class="lang-label" id="langLabel">हिंदी</span>
+              <span class="lang-arrow">▾</span>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <button class="lang-option active" data-lang="hi" data-flag="🇮🇳" data-label="हिंदी">
+                <span>🇮🇳</span> हिंदी
+              </button>
+              <button class="lang-option" data-lang="en" data-flag="🇬🇧" data-label="English">
+                <span>🇬🇧</span> English
+              </button>
+            </div>
+          </div>
           <div class="header-badge" id="header-badge">CM Rise</div>
         </div>
       </header>

@@ -40,9 +40,15 @@ class GeminiChat {
       const activeKey = GEMINI_CONFIG.apiKeys[GEMINI_CONFIG.currentKeyIndex];
       const url = `${GEMINI_CONFIG.apiUrl}/${GEMINI_CONFIG.model}:generateContent?key=${activeKey}`;
 
+      // Build language-aware system prompt
+      const lang = (typeof window.SELECTED_LANG !== 'undefined') ? window.SELECTED_LANG : 'hi';
+      const langInstruction = lang === 'en'
+        ? '\n\n🌐 LANGUAGE RULE (STRICT): The user has selected ENGLISH. You MUST reply ENTIRELY in English. Do NOT use Hindi or Devanagari script in your response. All formatting, headings, bullet points, and content must be in English only.'
+        : '\n\n🌐 भाषा नियम (अनिवार्य): यूजर ने हिंदी भाषा चुनी है। आप अपना सम्पूर्ण जवाब केवल हिंदी में दें। अंग्रेजी शब्द (जैसे school, lab, form) को हिंदी वाक्य में ज्यों का त्यों रख सकते हैं, लेकिन मुख्य जवाब हिंदी में होना चाहिए।';
+
       const requestBody = {
         system_instruction: {
-          parts: [{ text: SYSTEM_PROMPT }]
+          parts: [{ text: SYSTEM_PROMPT + langInstruction }]
         },
         contents: this.conversationHistory,
         generationConfig: {

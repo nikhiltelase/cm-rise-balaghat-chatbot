@@ -105,9 +105,63 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ─── Initialize Modules ───
-  const gemini = new GeminiChat();
-  const history = new ChatHistoryManager();
+  // ─── Language Selector Setup ───
+  let selectedLang = localStorage.getItem('saarthi_lang') || 'hi';
+  window.SELECTED_LANG = selectedLang; // Global for gemini.js to read
+
+  const langBtn = document.getElementById('langBtn');
+  const langFlag = document.getElementById('langFlag');
+  const langLabel = document.getElementById('langLabel');
+  const langSelector = document.getElementById('langSelector');
+  const langDropdown = document.getElementById('langDropdown');
+
+  const LANG_META = {
+    hi: { flag: '🇮🇳', label: 'हिंदी', placeholder: 'अपना सवाल यहाँ लिखें... (हिंदी या English में)' },
+    en: { flag: '🇬🇧', label: 'English', placeholder: 'Type your question here... (Hindi or English)' }
+  };
+
+  function applyLanguage(lang) {
+    selectedLang = lang;
+    window.SELECTED_LANG = lang;
+    localStorage.setItem('saarthi_lang', lang);
+
+    const meta = LANG_META[lang];
+    if (langFlag) langFlag.textContent = meta.flag;
+    if (langLabel) langLabel.textContent = meta.label;
+    if (messageInput) messageInput.placeholder = meta.placeholder;
+
+    // Update active state in dropdown
+    document.querySelectorAll('.lang-option').forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.lang === lang);
+    });
+  }
+
+  // Apply saved language on load
+  applyLanguage(selectedLang);
+
+  // Toggle dropdown
+  if (langBtn) {
+    langBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      langSelector.classList.toggle('open');
+    });
+  }
+
+  // Select language from dropdown
+  document.querySelectorAll('.lang-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      applyLanguage(opt.dataset.lang);
+      langSelector.classList.remove('open');
+    });
+  });
+
+  // Close dropdown on outside click
+  document.addEventListener('click', (e) => {
+    if (langSelector && !langSelector.contains(e.target)) {
+      langSelector.classList.remove('open');
+    }
+  });
+
 
   let currentSessionId = "";
   let isWaitingForResponse = false;

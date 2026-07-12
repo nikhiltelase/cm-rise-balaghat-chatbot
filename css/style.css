@@ -524,6 +524,109 @@ textarea {
   box-shadow: var(--shadow-glow);
 }
 
+/* ─── Language Selector ─── */
+.lang-selector {
+  position: relative;
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.lang-btn:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.3);
+}
+
+.lang-flag {
+  font-size: 1rem;
+}
+
+.lang-label {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+.lang-arrow {
+  font-size: 0.65rem;
+  opacity: 0.7;
+  transition: transform 0.2s;
+}
+
+.lang-selector.open .lang-arrow {
+  transform: rotate(180deg);
+}
+
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: rgba(15, 20, 50, 0.97);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  min-width: 140px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 200;
+}
+
+.lang-selector.open .lang-dropdown {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 16px;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.75);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.lang-option:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.lang-option.active {
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  font-weight: 700;
+}
+
+.lang-option.active::after {
+  content: '✓';
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+
+
 /* ─── Messages Area ─── */
 .chat-messages {
   flex: 1;
