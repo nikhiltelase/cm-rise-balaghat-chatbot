@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const recentChatsList = document.getElementById("recentChatsList");
   const noHistoryText = document.getElementById("noHistoryText");
 
+  // Header & Sidebar Branding Elements
+  const headerTitle = document.getElementById("header-title");
+  const headerAvatar = document.getElementById("header-avatar-icon");
+  const sidebarBotName = document.getElementById("sidebar-bot-name");
+  const sidebarSchoolName = document.getElementById("sidebar-school-name");
+
   // ─── Load SCHOOL_CONFIG into UI (Universal School Branding) ───
   const cfg = (typeof window.SCHOOL_CONFIG !== 'undefined') ? window.SCHOOL_CONFIG : {};
   const botName = cfg.botName || 'सारथी';
