@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (headerTitle) headerTitle.textContent = `${botName} — AI Assistant`;
 
   const headerBadge = document.getElementById('header-badge');
-  if (headerBadge) headerBadge.textContent = schoolDistrict ? `CM Rise • ${schoolDistrict}` : 'CM Rise';
+  if (headerBadge) headerBadge.textContent = (cfg.block || cfg.district) ? `CM Rise • ${cfg.block || cfg.district}` : 'CM Rise';
 
   const headerAvatar = document.getElementById('header-avatar-icon');
   if (headerAvatar) headerAvatar.textContent = botEmoji;
@@ -150,8 +150,24 @@ document.addEventListener("DOMContentLoaded", () => {
   // Select language from dropdown
   document.querySelectorAll('.lang-option').forEach(opt => {
     opt.addEventListener('click', () => {
+      const prevLang = selectedLang;
       applyLanguage(opt.dataset.lang);
       langSelector.classList.remove('open');
+
+      // If language actually changed, clear AI history so next response is in new language
+      if (prevLang !== opt.dataset.lang) {
+        // gemini is initialized below — safe to call here (user action = after init)
+        if (typeof gemini !== 'undefined' && gemini) {
+          gemini.clearHistory();
+        }
+        // Show a brief toast notification
+        const langName = opt.dataset.lang === 'en' ? 'English' : 'Hindi / हिंदी';
+        const toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(99,102,241,0.95);color:#fff;padding:8px 20px;border-radius:20px;font-size:0.82rem;z-index:9999;font-family:inherit;box-shadow:0 4px 20px rgba(0,0,0,0.4);';
+        toast.textContent = `🌐 Language changed to ${langName}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+      }
     });
   });
 
@@ -162,6 +178,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+
+  // ─── Initialize Modules ───
+  const gemini = new GeminiChat();
+  const history = new ChatHistoryManager();
 
   let currentSessionId = "";
   let isWaitingForResponse = false;
