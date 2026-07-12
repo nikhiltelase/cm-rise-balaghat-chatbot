@@ -35,17 +35,17 @@
         <!-- New Chat Button -->
         <button class="new-chat-btn" id="newChatBtn">
           <span>➕</span>
-          <span>नया चैट (New Chat)</span>
+          <span id="btnTextNewChat">नया चैट (New Chat)</span>
         </button>
 
         <!-- Recent Chats Section -->
-        <h3 class="sidebar-label" style="margin-top: 20px;">💬 हालिया बातचीत</h3>
+        <h3 class="sidebar-label" style="margin-top: 20px;" id="labelRecentChats">💬 हालिया बातचीत</h3>
         <div class="recent-chats" id="recentChatsList">
           <div class="no-history-text" id="noHistoryText">कोई इतिहास नहीं है</div>
         </div>
 
         <!-- Quick Links Section — Dynamically populated from school-config.js -->
-        <h3 class="sidebar-label" style="margin-top: 24px;">🔖 जल्दी पूछें</h3>
+        <h3 class="sidebar-label" style="margin-top: 24px;" id="labelQuickLinks">🔖 जल्दी पूछें</h3>
         <div class="quick-links" id="quickLinksContainer">
           <!-- Populated by app.js from SCHOOL_CONFIG.quickLinks -->
         </div>
@@ -54,7 +54,7 @@
       <div class="sidebar-footer">
         <button class="clear-chat-btn" id="clearChatBtn">
           <span>🗑️</span>
-          <span>चैट मिटाएं</span>
+          <span id="btnTextClearChat">चैट मिटाएं</span>
         </button>
         <div class="footer-info">
           <p>Powered by <strong>Google Gemini AI</strong></p>
@@ -158,7 +158,7 @@
             </svg>
           </button>
         </div>
-        <p class="input-hint">
+        <p class="input-hint" id="inputHint">
           ⚡ Google Gemini AI • CM Rise / सांदीपनि विद्यालय • Enter भेजें, Shift+Enter नई लाइन
         </p>
       </div>

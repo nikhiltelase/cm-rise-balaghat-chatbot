@@ -24,48 +24,93 @@ document.addEventListener("DOMContentLoaded", () => {
   // ─── Load SCHOOL_CONFIG into UI (Universal School Branding) ───
   const cfg = (typeof window.SCHOOL_CONFIG !== 'undefined') ? window.SCHOOL_CONFIG : {};
   const botName = cfg.botName || 'सारथी';
+  const botNameEnglish = cfg.botNameEnglish || 'Saarthi';
   const schoolName = cfg.schoolName || 'CM Rise Sandipani विद्यालय';
-  const schoolDistrict = cfg.district || '';
+  const schoolNameEnglish = cfg.schoolNameEnglish || 'CM Rise Sandipani School';
   const botEmoji = cfg.botEmoji || '🤖';
+
+  // ─── UI Localization Dictionary ───
+  const UI_TEXT = {
+    hi: {
+      newChat: "नया चैट (New Chat)",
+      recentChats: "💬 हालिया बातचीत",
+      quickAsk: "🔖 जल्दी पूछें",
+      clearChat: "चैट मिटाएं",
+      noHistory: "कोई इतिहास नहीं है",
+      statusOnline: "ऑनलाइन • जवाब देने को तैयार",
+      statusTyping: "टाइप कर रहा है...",
+      statusListening: "सुन रहा हूँ... बोलिए (Speak now)",
+      placeholder: "अपना सवाल यहाँ लिखें... (हिंदी या English में)",
+      inputHint: "⚡ Google Gemini AI • CM Rise / सांदीपनि विद्यालय • Enter भेजें, Shift+Enter नई लाइन",
+      headerTitle: `${botName} — AI Assistant`,
+      welcomeTitle: `नमस्ते! मैं <span class="gradient-text">${botName}</span> हूँ`,
+      welcomeSubtitle: `${schoolName} का AI Help Desk। मैं आज आपकी क्या सहायता कर सकता हूँ?`,
+      clearConfirm: "क्या आप सभी चैट डिलीट करना चाहते हैं?",
+      confirmDeleteBtn: "हाँ, मिटाओ",
+      cancelDeleteBtn: "रहने दो",
+      dialogTitle: "🗑️ चैट मिटाएं?",
+      dialogDesc: "क्या आप सारी चैट हिस्ट्री डिलीट करना चाहते हैं? यह वापस नहीं आएगी।",
+      welcomeCards: cfg.welcomeCards || [
+        { emoji: '🕐', title: 'स्कूल का समय व कैलेंडर', desc: 'समय सारणी, छुट्टियां और परीक्षा तिथियां जानें', query: 'स्कूल का समय क्या है?' },
+        { emoji: '📝', title: 'प्रवेश प्रक्रिया व नियम', desc: 'दाखिला पात्रता, 1-3 किमी नियम और दस्तावेज देखें', query: 'एडमिशन की प्रक्रिया बताओ' },
+        { emoji: '🎨', title: 'एआई इमेज जनरेशन', desc: 'स्कूल या प्रोजेक्ट का AI चित्र बनवाएं', query: 'सीएम राइज विद्यालय वारासिवनी की स्मार्ट क्लास का चित्र बनाओ' },
+        { emoji: '🏗️', title: 'स्मार्ट लैब व सुविधाएं', desc: 'अटल टिंकरिंग लैब, कंप्यूटर लैब की जानकारी', query: 'अटल टिंकरिंग लैब के बारे में बताओ' }
+      ],
+      quickLinks: cfg.quickLinks || [
+        { emoji: '🕐', label: 'स्कूल का समय', query: 'स्कूल का समय क्या है?' },
+        { emoji: '📝', label: 'एडमिशन जानकारी', query: 'एडमिशन की प्रक्रिया बताओ' },
+        { emoji: '📖', label: 'विषय / Streams', query: 'कक्षा 11 में कौन-कौन से विषय हैं?' },
+        { emoji: '🏗️', label: 'सुविधाएं', query: 'स्कूल में क्या-क्या सुविधाएं हैं?' },
+        { emoji: '📅', label: 'छुट्टियाँ / कैलेंडर', query: 'छुट्टियों की लिस्ट दिखाओ' },
+        { emoji: '📋', label: 'नियम', query: 'स्कूल के नियम क्या हैं?' },
+        { emoji: '📞', label: 'संपर्क करें', query: 'स्कूल से कैसे संपर्क करें?' },
+        { emoji: '🌟', label: 'CM Rise के बारे में', query: 'CM Rise / सांदीपनि योजना क्या है?' }
+      ]
+    },
+    en: {
+      newChat: "New Chat",
+      recentChats: "💬 Recent Chats",
+      quickAsk: "🔖 Quick Links",
+      clearChat: "Clear History",
+      noHistory: "No history found",
+      statusOnline: "Online • Ready to help",
+      statusTyping: "Typing response...",
+      statusListening: "Listening... speak now",
+      placeholder: "Type your question here... (Hindi or English)",
+      inputHint: "⚡ Google Gemini AI • CM Rise School • Press Enter to send, Shift+Enter for new line",
+      headerTitle: `${botNameEnglish} — AI Assistant`,
+      welcomeTitle: `Hello! I am <span class="gradient-text">${botNameEnglish}</span>`,
+      welcomeSubtitle: `AI Help Desk for ${schoolNameEnglish}. How can I assist you today?`,
+      clearConfirm: "Are you sure you want to clear all chat history?",
+      confirmDeleteBtn: "Yes, Clear",
+      cancelDeleteBtn: "Cancel",
+      dialogTitle: "🗑️ Clear History?",
+      dialogDesc: "Are you sure you want to delete all chat history? This cannot be undone.",
+      welcomeCards: [
+        { emoji: '🕐', title: 'School Timings & Calendar', desc: 'Know about schedules, holidays, and exam dates', query: 'What are the school timings?' },
+        { emoji: '📝', title: 'Admission Process & Rules', desc: 'Eligibility, 1-3 km radius rule & documentation', query: 'Tell me about the admission process' },
+        { emoji: '🎨', title: 'AI Image Generation', desc: 'Create an AI image of school labs or creative projects', query: 'Create an AI image of a smart classroom in CM Rise School Waraseoni' },
+        { emoji: '🏗️', title: 'Smart Labs & Facilities', desc: 'Atal Tinkering Lab, computer lab & coding details', query: 'Tell me about the Atal Tinkering Lab' }
+      ],
+      quickLinks: [
+        { emoji: '🕐', label: 'School Timings', query: 'What are the school timings?' },
+        { emoji: '📝', label: 'Admission Info', query: 'Tell me about the admission process' },
+        { emoji: '📖', label: 'Streams & Subjects', query: 'What subjects are available in class 11?' },
+        { emoji: '🏗️', label: 'Facilities', query: 'What facilities are available in this school?' },
+        { emoji: '📅', label: 'Holidays / Calendar', query: 'Show the holiday list' },
+        { emoji: '📋', label: 'Rules & Regs', query: 'What are the school rules?' },
+        { emoji: '📞', label: 'Contact Us', query: 'How can I contact the school?' },
+        { emoji: '🌟', label: 'About CM Rise', query: 'What is CM Rise / Sandipani scheme?' }
+      ]
+    }
+  };
 
   // Update page title
   document.title = `${botName} — ${schoolName} AI Assistant`;
 
-  // Update header
-  const headerTitle = document.getElementById('header-title');
-  if (headerTitle) headerTitle.textContent = `${botName} — AI Assistant`;
-
-  const headerBadge = document.getElementById('header-badge');
-  if (headerBadge) headerBadge.textContent = (cfg.block || cfg.district) ? `CM Rise • ${cfg.block || cfg.district}` : 'CM Rise';
-
-  const headerAvatar = document.getElementById('header-avatar-icon');
-  if (headerAvatar) headerAvatar.textContent = botEmoji;
-
-  // Update sidebar branding
-  const sidebarBotName = document.getElementById('sidebar-bot-name');
-  if (sidebarBotName) sidebarBotName.textContent = botName;
-
-  const sidebarSchoolName = document.getElementById('sidebar-school-name');
-  if (sidebarSchoolName) sidebarSchoolName.textContent = schoolName.length > 30 ? schoolName.substring(0, 28) + '...' : schoolName;
-
-  // Update welcome section
-  const welcomeBotName = document.getElementById('welcome-bot-name');
-  if (welcomeBotName) welcomeBotName.textContent = botName;
-
-  const welcomeAvatar = document.getElementById('welcome-avatar');
-  if (welcomeAvatar) welcomeAvatar.textContent = botEmoji;
-
-  const welcomeSubtitle = document.getElementById('welcome-subtitle');
-  if (welcomeSubtitle) welcomeSubtitle.textContent = `${schoolName} का AI Help Desk। मैं आज आपकी क्या सहायता कर सकता हूँ?`;
-
-  // Build welcome cards from SCHOOL_CONFIG
-  function buildWelcomeCardsHTML() {
-    const cards = cfg.welcomeCards || [
-      { emoji: '🕐', title: 'स्कूल का समय व कैलेंडर', desc: 'समय सारणी, छुट्टियां और परीक्षा तिथियां जानें', query: 'स्कूल का समय क्या है?' },
-      { emoji: '📝', title: 'प्रवेश प्रक्रिया व नियम', desc: 'दाखिला पात्रता, 1-3 किमी नियम और दस्तावेज देखें', query: 'एडमिशन की प्रक्रिया बताओ' },
-      { emoji: '🎨', title: 'एआई इमेज जनरेशन', desc: 'स्कूल या प्रोजेक्ट का AI चित्र बनवाएं', query: 'हमारी स्कूल की स्मार्ट क्लास का चित्र बनाओ' },
-      { emoji: '🏗️', title: 'स्मार्ट लैब व सुविधाएं', desc: 'अटल टिंकरिंग लैब, कंप्यूटर लैब की जानकारी', query: 'अटल टिंकरिंग लैब के बारे में बताओ' }
-    ];
+  // Build welcome cards from localized dictionary
+  function buildWelcomeCardsHTML(lang) {
+    const cards = UI_TEXT[lang].welcomeCards;
     return cards.map(c => `
       <div class="welcome-card" data-query="${c.query}">
         <div class="card-icon">${c.emoji}</div>
@@ -73,36 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="card-desc">${c.desc}</div>
       </div>
     `).join('');
-  }
-
-  // Populate welcome grid
-  const welcomeGrid = document.getElementById('welcomeGrid');
-  if (welcomeGrid) welcomeGrid.innerHTML = buildWelcomeCardsHTML();
-
-  // Build quick links from SCHOOL_CONFIG
-  const quickLinksContainer = document.getElementById('quickLinksContainer');
-  if (quickLinksContainer) {
-    const links = cfg.quickLinks || [
-      { emoji: '🕐', label: 'स्कूल का समय', query: 'स्कूल का समय क्या है?' },
-      { emoji: '📝', label: 'एडमिशन जानकारी', query: 'एडमिशन की प्रक्रिया बताओ' },
-      { emoji: '📖', label: 'विषय / Streams', query: 'कक्षा 11 में कौन-कौन से विषय हैं?' },
-      { emoji: '🏗️', label: 'सुविधाएं', query: 'स्कूल में क्या-क्या सुविधाएं हैं?' },
-      { emoji: '📅', label: 'छुट्टियाँ / कैलेंडर', query: 'छुट्टियों की लिस्ट दिखाओ' },
-      { emoji: '📋', label: 'नियम', query: 'स्कूल के नियम क्या हैं?' },
-      { emoji: '📞', label: 'संपर्क करें', query: 'स्कूल से कैसे संपर्क करें?' },
-      { emoji: '🌟', label: 'CM Rise के बारे में', query: 'CM Rise / सांदीपनि योजना क्या है?' }
-    ];
-    quickLinksContainer.innerHTML = links.map(l => `
-      <button class="quick-link-btn" data-query="${l.query}">
-        <span class="ql-icon">${l.emoji}</span>
-        <span>${l.label}</span>
-      </button>
-    `).join('');
-
-    // Bind quick link events
-    quickLinksContainer.querySelectorAll('.quick-link-btn').forEach(btn => {
-      btn.addEventListener('click', () => sendMessage(btn.dataset.query));
-    });
   }
 
   // ─── Language Selector Setup ───
@@ -116,8 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const langDropdown = document.getElementById('langDropdown');
 
   const LANG_META = {
-    hi: { flag: '🇮🇳', label: 'हिंदी', placeholder: 'अपना सवाल यहाँ लिखें... (हिंदी या English में)' },
-    en: { flag: '🇬🇧', label: 'English', placeholder: 'Type your question here... (Hindi or English)' }
+    hi: { flag: '🇮🇳', label: 'हिंदी' },
+    en: { flag: '🇬🇧', label: 'English' }
   };
 
   function applyLanguage(lang) {
@@ -125,15 +140,95 @@ document.addEventListener("DOMContentLoaded", () => {
     window.SELECTED_LANG = lang;
     localStorage.setItem('saarthi_lang', lang);
 
+    const txt = UI_TEXT[lang];
+
+    // Header updates
+    if (headerTitle) headerTitle.textContent = txt.headerTitle;
+    if (statusText && !isWaitingForResponse) statusText.textContent = txt.statusOnline;
+
+    const headerBadge = document.getElementById('header-badge');
+    if (headerBadge) {
+      const badgeText = (cfg.block || cfg.district) ? `CM Rise • ${cfg.block || cfg.district}` : 'CM Rise';
+      headerBadge.textContent = lang === 'en' ? badgeText.replace('वारासिवनी', 'Waraseoni') : badgeText;
+    }
+    if (headerAvatar) headerAvatar.textContent = botEmoji;
+
+    // Sidebar branding (dynamic English names on English mode)
+    if (sidebarBotName) sidebarBotName.textContent = lang === 'en' ? botNameEnglish : botName;
+    if (sidebarSchoolName) {
+      const sName = lang === 'en' ? schoolNameEnglish : schoolName;
+      sidebarSchoolName.textContent = sName.length > 30 ? sName.substring(0, 28) + '...' : sName;
+    }
+
+    // Sidebar buttons and labels
+    const btnTextNewChat = document.getElementById('btnTextNewChat');
+    if (btnTextNewChat) btnTextNewChat.textContent = txt.newChat;
+
+    const labelRecentChats = document.getElementById('labelRecentChats');
+    if (labelRecentChats) labelRecentChats.textContent = txt.recentChats;
+
+    const labelQuickLinks = document.getElementById('labelQuickLinks');
+    if (labelQuickLinks) labelQuickLinks.textContent = txt.quickAsk;
+
+    const btnTextClearChat = document.getElementById('btnTextClearChat');
+    if (btnTextClearChat) btnTextClearChat.textContent = txt.clearChat;
+
+    const noHistoryTextEl = document.getElementById('noHistoryText');
+    if (noHistoryTextEl) noHistoryTextEl.textContent = txt.noHistory;
+
+    // Footer input hint
+    const inputHint = document.getElementById('inputHint');
+    if (inputHint) inputHint.textContent = txt.inputHint;
+
+    // Message Input Placeholder
+    if (messageInput) messageInput.placeholder = txt.placeholder;
+
+    // Dropdown UI updates
     const meta = LANG_META[lang];
     if (langFlag) langFlag.textContent = meta.flag;
     if (langLabel) langLabel.textContent = meta.label;
-    if (messageInput) messageInput.placeholder = meta.placeholder;
 
-    // Update active state in dropdown
+    // Update active dropdown item
     document.querySelectorAll('.lang-option').forEach(opt => {
       opt.classList.toggle('active', opt.dataset.lang === lang);
     });
+
+    // Populate welcome grid if showing
+    const welcomeGrid = document.getElementById('welcomeGrid');
+    if (welcomeGrid) welcomeGrid.innerHTML = buildWelcomeCardsHTML(lang);
+
+    // Update welcome screen text elements
+    const welcomeSectionEl = document.getElementById('welcomeSection');
+    if (welcomeSectionEl) {
+      const welcomeAvatarEl = document.getElementById('welcome-avatar');
+      if (welcomeAvatarEl) welcomeAvatarEl.textContent = botEmoji;
+
+      const welcomeTitleEl = welcomeSectionEl.querySelector('.welcome-title');
+      if (welcomeTitleEl) welcomeTitleEl.innerHTML = txt.welcomeTitle;
+
+      const welcomeSubtitleEl = welcomeSectionEl.querySelector('.welcome-subtitle');
+      if (welcomeSubtitleEl) welcomeSubtitleEl.textContent = txt.welcomeSubtitle;
+    }
+
+    // Re-populate sidebar quick links
+    const quickLinksContainer = document.getElementById('quickLinksContainer');
+    if (quickLinksContainer) {
+      const links = txt.quickLinks;
+      quickLinksContainer.innerHTML = links.map(l => `
+        <button class="quick-link-btn" data-query="${l.query}">
+          <span class="ql-icon">${l.emoji}</span>
+          <span>${l.label}</span>
+        </button>
+      `).join('');
+
+      // Re-bind click events
+      quickLinksContainer.querySelectorAll('.quick-link-btn').forEach(btn => {
+        btn.addEventListener('click', () => sendMessage(btn.dataset.query));
+      });
+    }
+
+    // Re-bind suggest card click events
+    bindChipEvents();
   }
 
   // Apply saved language on load
@@ -156,7 +251,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // If language actually changed, clear AI history so next response is in new language
       if (prevLang !== opt.dataset.lang) {
-        // gemini is initialized below — safe to call here (user action = after init)
         if (typeof gemini !== 'undefined' && gemini) {
           gemini.clearHistory();
         }
@@ -247,8 +341,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function stopRecording() {
     isRecording = false;
     if (micBtn) micBtn.classList.remove("recording");
-    if (messageInput) messageInput.placeholder = "अपना सवाल यहाँ लिखें... (हिंदी या English में)";
-    updateStatus("ऑनलाइन • जवाब देने को तैयार", false);
+    if (messageInput) messageInput.placeholder = UI_TEXT[selectedLang].placeholder;
+    updateStatus(UI_TEXT[selectedLang].statusOnline, false);
     if (recognition) {
       try {
         recognition.stop();
@@ -356,18 +450,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     currentSessionId = "session_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
 
-    // Build welcome screen using SCHOOL_CONFIG
+    const txt = UI_TEXT[selectedLang];
+
+    // Build welcome screen using localized values
     chatMessages.innerHTML = `
       <div class="welcome-section" id="welcomeSection">
-        <div class="welcome-avatar">${botEmoji}</div>
+        <div class="welcome-avatar" id="welcome-avatar">${botEmoji}</div>
         <h2 class="welcome-title">
-          नमस्ते! मैं <span class="gradient-text">${botName}</span> हूँ
+          ${txt.welcomeTitle}
         </h2>
         <p class="welcome-subtitle">
-          ${schoolName} का AI Help Desk। मैं आज आपकी क्या सहायता कर सकता हूँ?
+          ${txt.welcomeSubtitle}
         </p>
-        <div class="welcome-grid">
-          ${buildWelcomeCardsHTML()}
+        <div class="welcome-grid" id="welcomeGrid">
+          ${buildWelcomeCardsHTML(selectedLang)}
         </div>
       </div>
     `;
@@ -543,7 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Show typing indicator
     const typingEl = showTypingIndicator();
-    updateStatus("टाइप कर रहा है...", true);
+    updateStatus(UI_TEXT[selectedLang].statusTyping, true);
 
     // Close sidebar on mobile
     closeSidebar();
@@ -565,7 +661,7 @@ document.addEventListener("DOMContentLoaded", () => {
       speakText(aiResponse, speakBtn);
     }
 
-    updateStatus("ऑनलाइन • जवाब देने को तैयार", false);
+    updateStatus(UI_TEXT[selectedLang].statusOnline, false);
     isWaitingForResponse = false;
 
     // Re-enable send button if there's text
@@ -797,15 +893,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ─── Clear Chat Confirmation ───
   function showClearConfirmation() {
+    const txt = UI_TEXT[selectedLang];
     const overlay = document.createElement("div");
     overlay.className = "confirm-overlay";
     overlay.innerHTML = `
       <div class="confirm-dialog">
-        <h3>🗑️ चैट मिटाएं?</h3>
-        <p>क्या आप सारी चैट हिस्ट्री डिलीट करना चाहते हैं? यह वापस नहीं आएगी।</p>
+        <h3>${txt.dialogTitle}</h3>
+        <p>${txt.dialogDesc}</p>
         <div class="confirm-actions">
-          <button class="btn-cancel" id="cancelClear">रहने दो</button>
-          <button class="btn-confirm-delete" id="confirmClear">हाँ, मिटाओ</button>
+          <button class="btn-cancel" id="cancelClear">${txt.cancelDeleteBtn}</button>
+          <button class="btn-confirm-delete" id="confirmClear">${txt.confirmDeleteBtn}</button>
         </div>
       </div>
     `;
